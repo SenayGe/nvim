@@ -97,7 +97,7 @@ vim.keymap.set('i', 'jk', '<Esc>', { noremap = true, silent = true })
 vim.keymap.set('i', 'kj', '<Esc>', { noremap = true, silent = true })
 
 -- Move to start of line with leader + j
-vim.keymap.set('n', '<leader>j', '0', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>h', '_', { noremap = true, silent = true })
 -- Move to end of line with leader + l
 vim.keymap.set('n', '<leader>l', '$', { noremap = true, silent = true })
 
@@ -178,6 +178,11 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 -- File explorer keymap
 vim.keymap.set('n', '<leader>e', ':Neotree toggle<CR>', { desc = 'Toggle file [E]xplorer', silent = true })
 
+-- Switch to next/previous buffer with Tab/Shift-Tab
+vim.keymap.set('n', '<Tab>', '<C-^>', { noremap = true, desc = 'Switch to previous buffer' })
+
+-- vim.keymap.set('n', '<Tab>', ':bnext<CR>', { noremap = true, silent = true })
+-- vim.keymap.set('n', '<S-Tab>', ':bprevious<CR>', { noremap = true, silent = true })
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
@@ -331,7 +336,7 @@ require('lazy').setup({
         { '<leader>s', group = '[S]earch' },
         { '<leader>w', group = '[W]orkspace' },
         { '<leader>t', group = '[T]oggle' },
-        { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+        -- { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
       },
     },
   },
