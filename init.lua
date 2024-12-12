@@ -101,6 +101,10 @@ vim.keymap.set('n', '<leader>h', '_', { noremap = true, silent = true })
 -- Move to end of line with leader + l
 vim.keymap.set('n', '<leader>l', '$', { noremap = true, silent = true })
 
+vim.keymap.set('v', '<leader>h', '_', { noremap = true, silent = true })
+-- Move to end of line with leader + l
+vim.keymap.set('v', '<leader>l', '$', { noremap = true, silent = true })
+
 -- [[ Setting options ]]
 -- See `:help vim.opt`
 -- NOTE: You can change these options as you wish!
@@ -117,6 +121,9 @@ vim.opt.mouse = 'a'
 
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
+
+-- Enable true color support
+vim.o.termguicolors = true
 
 -- Sync clipboard between OS and Neovim.
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
@@ -623,7 +630,29 @@ require('lazy').setup({
       local servers = {
         -- clangd = {},
         -- gopls = {},
-        -- pyright = {},
+        pyright = {},
+        -- pyright = {
+        --   settings = {
+        --     python = {
+        --       analysis = {
+        --         autoSearchPaths = true,
+        --         diagnosticMode = 'workspace',
+        --         useLibraryCodeForTypes = true,
+        --       },
+        --     },
+        --   },
+        -- },
+        ruff_lsp = {
+          -- Ruff LSP is a tool that combines multiple Python linters
+          init_options = {
+            settings = {
+              -- Configure formatting options if needed
+              format = {
+                args = {},
+              },
+            },
+          },
+        },
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -663,6 +692,12 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
+        -- Python-specific tools
+        'pyright', -- Python LSP
+        'ruff-lsp', -- Fast Python linter
+        'black', -- Python formatter
+        'isort', -- Python import formatter
+        -- "debugpy",
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -716,7 +751,7 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
+        python = { 'isort', 'black' },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
